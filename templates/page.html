@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{title}} | {{siteTitle}}</title>
+  <meta name="description" content="{{description}}" />
+  <link rel="stylesheet" href="{{base}}assets/style.css" />
+  <link rel="stylesheet" media="(prefers-color-scheme: light)" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
+  <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="{{base}}index.html">{{siteTitle}}</a>
+  </header>
+  <main class="container note">
+    <nav class="breadcrumb"><a href="{{base}}index.html">Home</a> <span>/</span> <span>{{category}}</span></nav>
+    <article>
+      <h1 class="note-title">{{title}}</h1>
+      <div class="note-meta">
+        <time datetime="{{date}}">{{date}}</time>
+        <span class="tags">{{tags}}</span>
+      </div>
+      {{question}}
+      <div class="note-body">
+        {{content}}
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <a href="{{base}}index.html">← 一覧へ戻る</a>
+    <span>{{siteTitle}} · {{year}}</span>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>

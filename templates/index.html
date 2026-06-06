@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{siteTitle}}</title>
+  <meta name="description" content="{{description}}" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="index.html">{{siteTitle}}</a>
+  </header>
+  <main class="container">
+    <section class="hero">
+      <p class="hero-desc">{{description}}</p>
+      <p class="hero-count">{{count}} notes</p>
+    </section>
+    <div class="search">
+      <input id="filter" type="search" placeholder="🔍 タイトル・タグで絞り込み…" autocomplete="off" />
+    </div>
+    <div id="notes">
+      {{content}}
+    </div>
+  </main>
+  <footer class="site-footer">
+    <span>{{siteTitle}} · {{year}}</span>
+  </footer>
+  <script>
+    const input = document.getElementById("filter");
+    const cards = [...document.querySelectorAll(".note-card")];
+    const sections = [...document.querySelectorAll(".category")];
+    input?.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      for (const card of cards) {
+        const hit = !q || card.dataset.search.includes(q);
+        card.style.display = hit ? "" : "none";
+      }
+      for (const sec of sections) {
+        const visible = [...sec.querySelectorAll(".note-card")].some((c) => c.style.display !== "none");
+        sec.style.display = visible ? "" : "none";
+      }
+    });
+  </script>
+</body>
+</html>
