@@ -1,0 +1,68 @@
+name: Issue to note
+
+# 「note」ラベルの付いた Issue（投稿フォーム）からノートを作り、PR を開く。
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  create-note:
+    if: contains(join(github.event.issue.labels.*.name, ','), 'note')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip if branch already exists
+        id: guard
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          branch="note/issue-${ISSUE_NUMBER}"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            echo "already-handled=true" >> "$GITHUB_OUTPUT"
+            echo "Branch $branch already exists — skipping."
+          else
+            echo "already-handled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.guard.outputs.already-handled == 'false'
+        with:
+          node-version: 20
+
+      - name: Generate note file
+        id: gen
+        if: steps.guard.outputs.already-handled == 'false'
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: node scripts/issue-to-note.mjs
+
+      - name: Create pull request
+        if: steps.guard.outputs.already-handled == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          FILE: ${{ steps.gen.outputs.file }}
+        run: |
+          branch="note/issue-${ISSUE_NUMBER}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add "$FILE"
+          git commit -m "Add note from issue #${ISSUE_NUMBER}"
+          git push -u origin "$branch"
+          pr_url=$(gh pr create --base main --head "$branch" \
+            --title "Add note from issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}" \
+            --body "Closes #${ISSUE_NUMBER}
+
+          投稿フォームから自動生成したノートです。マージするとサイトに公開されます。")
+          gh issue comment "$ISSUE_NUMBER" --body "ノートのPRを作成しました 🚀 → ${pr_url}
+          マージするとサイトに公開されます。"

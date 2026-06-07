@@ -167,12 +167,16 @@ async function main() {
     }
   }
 
+  const newNoteUrl = config.repo
+    ? `https://github.com/${config.repo}/issues/new?template=note.yml`
+    : "";
   const indexHtml = render(indexTpl, {
     lang: config.lang || "ja",
     siteTitle: escapeHtml(config.title),
     description: escapeHtml(config.description || ""),
     content: listHtml,
     count: notes.length,
+    newNoteUrl: escapeHtml(newNoteUrl),
     year: new Date().getFullYear(),
   });
   await writeFile(path.join(DIST_DIR, "index.html"), indexHtml, "utf8");
