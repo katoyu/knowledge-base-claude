@@ -14,7 +14,10 @@
   <main class="container">
     <section class="hero">
       <p class="hero-desc">{{description}}</p>
-      <p class="hero-count">{{count}} notes</p>
+      <div class="hero-row">
+        <p class="hero-count">{{count}} notes</p>
+        <a class="post-btn" href="{{newNoteUrl}}" target="_blank" rel="noopener">✍️ ノートを投稿</a>
+      </div>
     </section>
     <div class="search">
       <input id="filter" type="search" placeholder="🔍 タイトル・タグで絞り込み…" autocomplete="off" />

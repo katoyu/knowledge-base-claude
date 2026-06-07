@@ -2,5 +2,6 @@
   "title": "技術ノート",
   "description": "Claude Code と一緒に育てる、自分のための技術ナレッジベース",
   "author": "katoyu",
-  "lang": "ja"
+  "lang": "ja",
+  "repo": "katoyu/knowledge-base-claude"
 }

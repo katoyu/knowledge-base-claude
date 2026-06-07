@@ -1,0 +1,47 @@
+name: ノートを投稿
+description: 技術ノートを追加する（PRがマージされるとサイトに公開されます）
+title: "[note] "
+labels: ["note"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: タイトル
+      description: ノートのタイトル
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: カテゴリ
+      description: "例: javascript, infra, web, misc（小文字・英語）。空なら misc"
+      placeholder: misc
+  - type: input
+    id: slug
+    attributes:
+      label: slug
+      description: ファイル名にする英語のケバブケース。空なら Issue 番号から自動生成
+      placeholder: my-note-title
+  - type: input
+    id: tags
+    attributes:
+      label: タグ
+      description: "カンマ区切り。例: react, hooks"
+  - type: input
+    id: source
+    attributes:
+      label: 出典
+      description: "他AIとの議論や元記事など。例: ChatGPTとの議論 / https://..."
+  - type: textarea
+    id: body
+    attributes:
+      label: 本文
+      description: Markdown で記入。結論 → 詳しく → 参考 の構成がおすすめ
+      value: |
+        ## 結論
+
+        ## 詳しく
+
+        ## 参考
+    validations:
+      required: true

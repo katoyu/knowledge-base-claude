@@ -19,6 +19,26 @@ GitHub Pages に公開する。ビルドは不要、書くのは Markdown だけ
 コミット & push する。あとは Actions が公開してくれる。
 ふるまいの定義は [`CLAUDE.md`](./CLAUDE.md) にある。
 
+## サイトから投稿する
+
+公開サイトの右上「✍️ ノートを投稿」ボタンから、**ブラウザ（スマホ可）だけ**で投稿できる。
+
+```
+[✍️ ノートを投稿] → 入力フォーム付き GitHub Issue → Actions が md 化して PR → マージで公開
+```
+
+- 投稿フォーム: `.github/ISSUE_TEMPLATE/note.yml`（タイトル / カテゴリ / slug / タグ / 出典 / 本文）
+- 変換: `.github/workflows/issue-to-note.yml` + `scripts/issue-to-note.mjs`（本文を原文のまま md 化）
+- 他AIで深めた md は、本文欄に貼ってそのまま投稿すればよい。
+
+### 初回セットアップ（1回だけ）
+
+Actions が PR を作れるように、リポジトリ設定を1つ有効化する:
+
+1. **Settings → Actions → General → Workflow permissions**
+2. **「Read and write permissions」** を選択
+3. **「Allow GitHub Actions to create and approve pull requests」** にチェック → Save
+
 ## ディレクトリ構成
 
 ```
