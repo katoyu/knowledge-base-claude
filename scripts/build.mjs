@@ -48,6 +48,14 @@ function tagsToHtml(tags, base = "") {
     .join(" ");
 }
 
+// エスケープ済み文字列中の URL をリンクに変換する
+function linkify(s) {
+  return s.replace(
+    /(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" rel="noopener" target="_blank">$1</a>'
+  );
+}
+
 async function collectNotes(dir) {
   if (!existsSync(dir)) return [];
   const entries = await readdir(dir, { withFileTypes: true });
@@ -96,6 +104,9 @@ async function main() {
           data.question
         )}</p></aside>`
       : "";
+    const sourceHtml = data.source
+      ? `<p class="note-source">出典: ${linkify(escapeHtml(String(data.source)))}</p>`
+      : "";
 
     const html = render(pageTpl, {
       lang: config.lang || "ja",
@@ -105,6 +116,7 @@ async function main() {
       category: escapeHtml(category),
       date,
       tags: tagsToHtml(tags),
+      source: sourceHtml,
       question: questionHtml,
       content: bodyHtml,
       base,

@@ -4,6 +4,7 @@ date: 2026-06-06
 category: meta
 tags: [運用, claude-code]
 description: 何のためのサイトで、どうやってノートを増やすのか
+source: https://zenn.dev/ttaniguchi/articles/instant-question-html-notes
 ---
 
 ## これは何

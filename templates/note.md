@@ -5,6 +5,7 @@ category: misc
 tags: [tag1, tag2]
 question: ここに元の質問文を書く（任意・あると後で文脈を思い出しやすい）
 description: 一覧に表示される一行要約（任意）
+source: ChatGPTとの議論 / https://example.com  # 任意。他AIや元記事など出典・由来
 ---
 
 ## 結論
